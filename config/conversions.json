@@ -1,0 +1,7 @@
+{
+    "miG": "G / 1024",
+    "2miG": "G / 512",
+    "uV": "mV / 1000",
+    "kilometer": "meter / 1000",
+    "meter": "kilometer * 1000"
+}
