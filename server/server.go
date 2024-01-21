@@ -10,6 +10,8 @@ import (
 	pb "github.com/ken1009us/unit-conversion-service/pb"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -25,7 +27,7 @@ func (s *server) ConvertUnit(ctx context.Context, in *pb.UnitConversionRequest) 
     log.Printf("Received: %v", in.GetValue())
     result, err := s.converter.Convert(in.GetValue(), in.GetFromUnit(), in.GetToUnit())
     if err != nil {
-        return nil, err
+        return nil, status.Errorf(codes.Internal, "error during conversion: %v", err)
     }
     return &pb.UnitConversionResponse{ConvertedValue: result}, nil
 }
