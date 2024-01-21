@@ -8,8 +8,13 @@ import (
 )
 
 func main() {
-	ucc := clientlib.NewUnitConversionClient()
-	defer ucc.Close()  // Ensure the connection is closed when done
+	ucc, err := clientlib.NewUnitConversionClient()
+    if err != nil {
+        fmt.Println("Error creating unit conversion client:", err)
+        return
+    }
+
+	defer ucc.Close()
 
 	result, err := ucc.Convert("meter", "kilometer", 1000)
 	if err != nil {
