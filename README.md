@@ -84,29 +84,41 @@ go run server/server.go
 You can use the client library in your Go projects to interact with the conversion service. Here's a basic example:
 
 ```go
-
 package main
 
 import (
-    "fmt"
-    "github.com/yourusername/unit-conversion-service/clientlib"
+	"fmt"
+
+	"github.com/ken1009us/unit-conversion-service/clientlib"
 )
 
 func main() {
-    ucc := clientlib.NewUnitConversionClient()
-    defer ucc.Close()
-
-    result, err := ucc.Convert("meter", "kilometer", 1000)
+	ucc, err := clientlib.NewUnitConversionClient()
     if err != nil {
-        fmt.Println("Error during conversion:", err)
+        fmt.Println("Error creating unit conversion client:", err)
         return
     }
-    fmt.Printf("Conversion result: %f kilometers\n", result)
-}
 
+	defer ucc.Close()
+
+	result, err := ucc.Convert("meter", "kilometer", 1000)
+	if err != nil {
+		fmt.Println("Error during conversion:", err)
+		return
+	}
+
+	fmt.Printf("Conversion result: %f kilometers\n", result)
+}
 ```
 
 Replace `yourusername` with your actual GitHub username.
+
+### Result
+
+```shell
+❯ go run example/main.go
+Conversion result: 1.000000 kilometers
+```
 
 ## Custom Units
 
