@@ -32,10 +32,7 @@ For Go:
 go mod tidy
 ```
 
-
-## Usage
-
-The `Makefile` simplifies the process of generating Protobuf and gRPC code. Use the following command:
+3. The `Makefile` simplifies the process of generating Protobuf and gRPC code. Use the following command:
 
 ```bash
 make all
@@ -43,7 +40,7 @@ make all
 
 If you encounter an issue such as protoc-gen-go: program not found or is not executable, it means that the Protocol Buffer compiler cannot find the Go plugins (protoc-gen-go and protoc-gen-go-grpc). To resolve this, follow these steps:
 
-1. Install Protocol Compiler Plugins for Go:
+- Install Protocol Compiler Plugins for Go:
 
 Make sure you have the protoc (Protocol Buffer Compiler) installed on your system. Then, install the Go plugins for Protocol Buffers and gRPC:
 
@@ -52,7 +49,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 ```
 
-2. Ensure the PATH Includes the Go Bin Directory:
+- Ensure the PATH Includes the Go Bin Directory:
 
 The installed plugins will be in your $GOPATH/bin directory or $HOME/go/bin if GOPATH is not set. Ensure this directory is in your system's PATH so that protoc can find the plugins.
 
@@ -78,11 +75,38 @@ Start the gRPC server:
 go run server/server.go
 ```
 
-In a new terminal, use the client script to convert units:
+## Usage
 
-```bash
-go run client/client.go
+### Client Library
+
+**Use the Client Library**:
+
+You can use the client library in your Go projects to interact with the conversion service. Here's a basic example:
+
+```go
+
+package main
+
+import (
+    "fmt"
+    "github.com/yourusername/unit-conversion-service/clientlib"
+)
+
+func main() {
+    ucc := clientlib.NewUnitConversionClient()
+    defer ucc.Close()
+
+    result, err := ucc.Convert("meter", "kilometer", 1000)
+    if err != nil {
+        fmt.Println("Error during conversion:", err)
+        return
+    }
+    fmt.Printf("Conversion result: %f kilometers\n", result)
+}
+
 ```
+
+Replace `yourusername` with your actual GitHub username.
 
 ## Custom Units
 
@@ -99,7 +123,7 @@ Example conversions.json:
 
 ## Project Structure
 
-- client/client.go: Contains the gRPC client code.
+- clientlib/clientlib.go: Contains the gRPC client library code.
 - config/conversions.json: Contains the custom unit definitions.
 - server/server.go: Contains the gRPC server code.
 - units/units.go: Contains the unit conversion logic.
